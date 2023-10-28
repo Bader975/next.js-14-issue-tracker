@@ -1,9 +1,9 @@
 import React from 'react'
-
+import { Flex, Text, Button } from '@radix-ui/themes';
 export default function IssuesPage() {
     return (
         <div className='text-center'>
-            Issues Page
+            <Button> New Issue </Button>
         </div>
     )
 }
