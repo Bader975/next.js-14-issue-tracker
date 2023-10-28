@@ -2,6 +2,8 @@ import React from 'react'
 
 export default function IssuesPage() {
     return (
-        <div>IssuesPage</div>
+        <div className='text-center'>
+            Issues Page
+        </div>
     )
 }
