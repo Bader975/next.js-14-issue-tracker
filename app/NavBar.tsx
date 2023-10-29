@@ -33,7 +33,9 @@ export default function NavBar() {
 
                 {navLinks.map((link, index) =>
 
-                    <Link key={index} className={classNames({
+
+                    <Link key={link.lable} className={classNames({
+                        
                         'text-zinc-900': link.href == activePath,
                         'text-zinc-500': link.href !== activePath,
                         'text-xl hover:text-zinc-800 transition-colors ': true

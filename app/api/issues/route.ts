@@ -5,8 +5,8 @@ import prisma from '@/prisma/client'
 
 // validate the body request by **ZOD**
 const issuesZodSchema = z.object({
-    title: z.string().min(3).max(255),
-    description: z.string().min(5)
+    title: z.string().min(1,'Title is required .').max(255),
+    description: z.string().min(1,'Description is required')
 })
 
 // validate the body request by **ZOD**
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest, res: Response) {
 
     if (!validtion.success) {
         // res.json(validtion.error.errors, { status: 400 });
-        return NextResponse.json(validtion.error.errors, { status: 400 });
+        return NextResponse.json(validtion.error.format(), { status: 400 });
     }
 
     // const { title, description } = body;
