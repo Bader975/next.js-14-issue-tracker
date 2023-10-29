@@ -1,24 +1,31 @@
 'use client';
 import axios from 'axios';
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { TextField, Button, Callout } from '@radix-ui/themes';
+import { TextField, Button, Text, Callout } from '@radix-ui/themes';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { issuesZodSchema } from '../../../zodSchemas/zodSchema'
+import { z } from 'zod';
 
+type IssueFrimInputs = z.infer<typeof issuesZodSchema>;
 
-interface IssueFrimInputs {
-    title: string;
-    description: string;
-}
+// interface IssueFrimInputs {
+//     title: string;
+//     description: string;
+// }
 export default function newIssue() {
     const [error, setError] = useState('');
     // router
     const router = useRouter()
     // React From Hook
-    const { register, control, handleSubmit } = useForm<IssueFrimInputs>();
+    const { register, control, handleSubmit, formState: { errors } } = useForm<IssueFrimInputs>({
+        resolver: zodResolver(issuesZodSchema)
+    });
+console.log(errors);
 
     // submit form handler
     const handleNewIssue = async (data: any) => {
@@ -56,11 +63,18 @@ export default function newIssue() {
                 <TextField.Root>
                     <TextField.Input placeholder="Title" {...register('title')} />
                 </TextField.Root>
+                {/* errors check */}
+                {errors.title && <Text color='red' as='p'>{errors.title.message}</Text>}
+                {/* errors check */}
                 <Controller name='description' control={control}
                     render={({ field }) => <SimpleMDE placeholder="Description ..." {...field} />}
                 />
-                <Button>Submit</Button>
+                {/* errors check */}
+                {errors.description && <Text color='red' as='p'>{errors.description.message}</Text>}
+                {/* errors check */}
+                <Button >Submit</Button>
             </form>
+            
         </div>
     )
 }
