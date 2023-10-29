@@ -10,6 +10,7 @@ import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { issuesZodSchema } from '../../../zodSchemas/zodSchema'
 import { z } from 'zod';
+import ErrorrMessage from '../../components/ErrorMessage'
 
 type IssueFrimInputs = z.infer<typeof issuesZodSchema>;
 
@@ -19,13 +20,15 @@ type IssueFrimInputs = z.infer<typeof issuesZodSchema>;
 // }
 export default function newIssue() {
     const [error, setError] = useState('');
+
     // router
     const router = useRouter()
+
     // React From Hook
     const { register, control, handleSubmit, formState: { errors } } = useForm<IssueFrimInputs>({
         resolver: zodResolver(issuesZodSchema)
     });
-console.log(errors);
+
 
     // submit form handler
     const handleNewIssue = async (data: any) => {
@@ -64,17 +67,17 @@ console.log(errors);
                     <TextField.Input placeholder="Title" {...register('title')} />
                 </TextField.Root>
                 {/* errors check */}
-                {errors.title && <Text color='red' as='p'>{errors.title.message}</Text>}
+                <ErrorrMessage>{errors.title?.message}</ErrorrMessage>
                 {/* errors check */}
                 <Controller name='description' control={control}
                     render={({ field }) => <SimpleMDE placeholder="Description ..." {...field} />}
                 />
                 {/* errors check */}
-                {errors.description && <Text color='red' as='p'>{errors.description.message}</Text>}
+                <ErrorrMessage>{errors.description?.message}</ErrorrMessage>
                 {/* errors check */}
                 <Button >Submit</Button>
             </form>
-            
+
         </div>
     )
 }
