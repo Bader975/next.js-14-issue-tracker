@@ -3,9 +3,6 @@ import { z } from 'zod';
 import prisma from '@/prisma/client'
 
 
-
-
-
 // validate the body request by **ZOD**
 const issuesZodSchema = z.object({
     title: z.string().min(3).max(255),

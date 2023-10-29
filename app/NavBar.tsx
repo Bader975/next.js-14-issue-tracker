@@ -1,9 +1,9 @@
-"use client";
+'use client';
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import React from 'react'
 import { FaBug } from 'react-icons/fa';
-import classNames from 'classNames';
+import classNames from 'classnames';
 
 
 interface navLinksProps {
@@ -36,7 +36,7 @@ export default function NavBar() {
                     <Link key={index} className={classNames({
                         'text-zinc-900': link.href == activePath,
                         'text-zinc-500': link.href !== activePath,
-                        'hover:text-zinc-800 transition-colors': true
+                        'text-xl hover:text-zinc-800 transition-colors ': true
                     })} href={link.href}>{link.lable}</Link>
                 )}
             </ul>
