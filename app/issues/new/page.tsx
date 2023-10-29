@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { issuesZodSchema } from '../../../zodSchemas/zodSchema'
 import { z } from 'zod';
 import ErrorrMessage from '../../components/ErrorMessage'
+import Spinner from '../../components/Spinner'
 
 type IssueFrimInputs = z.infer<typeof issuesZodSchema>;
 
@@ -19,7 +20,8 @@ type IssueFrimInputs = z.infer<typeof issuesZodSchema>;
 //     description: string;
 // }
 export default function newIssue() {
-    const [error, setError] = useState('');
+    const [error, setError] = useState<string>('');
+    const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
     // router
     const router = useRouter()
@@ -34,6 +36,9 @@ export default function newIssue() {
     const handleNewIssue = async (data: any) => {
         const { title, description } = data;
         try {
+            // show Spinner
+            setIsSubmitted(true);
+
             const newIssue = await axios.post('/api/issues', {
                 title,
                 description
@@ -45,6 +50,7 @@ export default function newIssue() {
             }
         }
         catch (err) {
+            setIsSubmitted(false);
             setError('An Unexpected error occurred');
         }
 
@@ -75,7 +81,8 @@ export default function newIssue() {
                 {/* errors check */}
                 <ErrorrMessage>{errors.description?.message}</ErrorrMessage>
                 {/* errors check */}
-                <Button >Submit</Button>
+
+                <Button disabled={isSubmitted}>Submit {isSubmitted && <Spinner />}</Button>
             </form>
 
         </div>
