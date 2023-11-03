@@ -15,10 +15,7 @@ import Spinner from '../../components/Spinner'
 
 type IssueFrimInputs = z.infer<typeof issuesZodSchema>;
 
-// interface IssueFrimInputs {
-//     title: string;
-//     description: string;
-// }
+
 export default function newIssue() {
     const [error, setError] = useState<string>('');
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -53,12 +50,10 @@ export default function newIssue() {
             setIsSubmitted(false);
             setError('An Unexpected error occurred');
         }
-
-
     }
 
     return (
-        <div className='max-w-[80%] '>
+        <div className='max-w-[80%]'>
             {error && <Callout.Root color="red" role="alert">
                 <Callout.Icon>
                     <ExclamationTriangleIcon />
@@ -68,6 +63,7 @@ export default function newIssue() {
                 </Callout.Text>
             </Callout.Root>
             }
+            
             <form className="space-y-2 mt-3" onSubmit={handleSubmit((data) => handleNewIssue(data))}>
                 <TextField.Root>
                     <TextField.Input placeholder="Title" {...register('title')} />

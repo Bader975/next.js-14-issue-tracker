@@ -5,7 +5,7 @@ import { issuesZodSchema } from "../../../zodSchemas/zodSchema";
 
 // validate the body request by **ZOD**
 
-export async function POST(request: NextRequest, res: Response) {
+export async function POST(request: NextRequest, response: Response) {
     const body = await request.json();
     const validtion = issuesZodSchema.safeParse(body);
 
@@ -23,5 +23,14 @@ export async function POST(request: NextRequest, res: Response) {
     })
 
     return NextResponse.json(newIssues, { status: 201 });
+
+}
+
+
+export async function GET( response: Response) {
+
+const allIssues= await prisma.issue.findMany({});
+
+return NextResponse.json(allIssues)
 
 }
